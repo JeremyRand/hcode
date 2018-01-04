@@ -41,7 +41,7 @@ else
 		$(C2) "    C++$(1)    $$(@F)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CXX) $$(COMMONFLAGS) $$(CXXFLAGS) \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CXX) $$(COMMONFLAGS) $$(CXXFLAGS) \
 			$$(LOCALCOMMONFLAGS) $$(LOCALCXXFLAGS) \
 			$$< -c -o $$@
 endef
@@ -53,7 +53,7 @@ else
 		$(C2) "    CC$(1)     $$(@F)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CC) $$(COMMONFLAGS) $$(CFLAGS) \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CC) $$(COMMONFLAGS) $$(CFLAGS) \
 			$$(LOCALCOMMONFLAGS) $$(LOCALCFLAGS) \
 			$$< -c -o $$@
 endef
@@ -65,7 +65,7 @@ else
 		$(C2) "    LDSO$(1)   $$(@F)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CXX) $$(LDFLAGS) \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CXX) $$(LDFLAGS) \
 			-shared  $$(addprefix -L,$(FAPI2_PLAT_LIB)) $$(LOCALLDFLAGS) \
 			$$(patsubst lib%.so,-l%, $$(notdir $$(filter %.so, $$^))) \
 			-Wl,--whole-archive \
@@ -83,7 +83,7 @@ else
 		$(C2) "    LD$(1)     $$(@F)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CXX) $$(LDFLAGS)  \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CXX) $$(LDFLAGS)  \
 			$$(addprefix -L,$(FAPI2_PLAT_LIB)) $$(LOCALLDFLAGS) \
 			$$(patsubst lib%.so,-l%, $$(notdir $$(filter %.so, $$^))) \
 			-Wl,--whole-archive \
@@ -100,7 +100,8 @@ else
 		$(C2) "    AR$(1)     $$(@F)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(AR) rcs $$@ $$^
+		$(C1) rm -f $$@
+		$(C1) $$($(1)_PREFIX)$$($(1)_AR) rcs $$@ $$^
 endef
 
 define __CALL_CXX_DEP
@@ -110,7 +111,7 @@ else
 		$(C2) "    DEP$(1)    $$(@F:.o=.dep)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CXX) -M -MP -MT $$@ \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CXX) -M -MP -MT $$@ \
 			$$(COMMONFLAGS) $$(CXXFLAGS) \
 			$$(LOCALCOMMONFLAGS) $$(LOCALCXXFLAGS) \
 			$$< -o $$(subst .o,.dep,$$@)
@@ -123,7 +124,7 @@ else
 		$(C2) "    DEP$(1)    $$(@F:.o=.dep)"
 endif
 		$(C1) mkdir -p $$(@D)
-		$(C1) $$($(1)_PREFIX)$$(CC) -M -MP -MT $$@ \
+		$(C1) $$($(1)_PREFIX)$$($(1)_CC) -M -MP -MT $$@ \
 			$$(COMMONFLAGS) $$(CFLAGS) \
 			$$(LOCALCOMMONFLAGS) $$(LOCALCFLAGS) \
 			$$< -o $$(subst .o,.dep,$$@)

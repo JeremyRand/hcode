@@ -87,7 +87,7 @@ $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).so: LOCALLDFLAGS += $$(lib$(MODULE)_LDFLAG
 $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).so: $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a \
 	$$(foreach lib,$$(lib$(MODULE)_DEPLIBS),$$$$(lib$(MODULE)_LIBPATH)/lib$$(lib).a ) \
 	$$(lib$(MODULE)_EXTRALIBS) | $$(lib$(MODULE)_DEPSORDER)
-$(call __CALL_LDSO,$$(or $$(lib$(MODULE)_TARGET),TARGET))
+$(call __CALL_LDSO,$$(or $$(lib$(MODULE)_HOST),HOST))
 
 $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a: LOCALCOMMONFLAGS += $$(lib$(MODULE)_COMMONFLAGS)
 $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a: LOCALCFLAGS += $$(lib$(MODULE)_CFLAGS)
@@ -96,7 +96,7 @@ $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a: LOCALLDFLAGS += $$(lib$(MODULE)_LDFLAGS
 
 
 $$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a: $$(lib$(MODULE)_OBJS)
-$(call __CALL_AR,$$(or $$(lib$(MODULE)_TARGET),TARGET))
+$(call __CALL_AR,$$(or $$(lib$(MODULE)_HOST),HOST))
 
 $(call __CLEAN_TARGET,$$(lib$(MODULE)_LIBPATH)/lib$(MODULE).so)
 $(call __CLEAN_TARGET,$$(lib$(MODULE)_LIBPATH)/lib$(MODULE).a)
@@ -141,7 +141,7 @@ __ADD_MODULE_SRCDIR = \
 #    * Generate all the possible .C->.o, .c->.o, etc. pattern recipes.
 define ___ADD_MODULE_SRCDIR
 $(call __ADD_MODULE_INCDIR,$(1),$(2))
-$(call __GENERATE_OBJECTRULES,$(OBJPATH)/$(1),$(2),$$(or $$(lib$(1)_TARGET),TARGET))
+$(call __GENERATE_OBJECTRULES,$(OBJPATH)/$(1),$(2),$$(or $$(lib$(1)_HOST),HOST))
 endef
 
 # ADD_MODULE_INCDIR

@@ -81,10 +81,10 @@ $(EXEPATH)/$(EXE).exe: LOCALLDFLAGS += $$($(EXE)_LDFLAGS)
 $(EXEPATH)/$(EXE).exe: $$($(EXE)_PATH)/lib$(EXE).a \
 	$$(foreach lib,$$($(EXE)_DEPLIBS),$$($(EXE)_LIBPATH)/lib$$(lib).a) \
 	$$($(EXE)_EXTRALIBS) $$($(EXE)_DEPS) | $$($(EXE)_DEPSORDER)
-$(call __CALL_LD,$$(or $$($(EXE)_TARGET),TARGET))
+$(call __CALL_LD,$$(or $$($(EXE)_HOST),HOST))
 
 $$($(EXE)_PATH)/lib$(EXE).a: $$($(EXE)_OBJS)
-$(call __CALL_AR,$$(or $$($(EXE)_TARGET),TARGET))
+$(call __CALL_AR,$$(or $$($(EXE)_HOST),HOST))
 
 $(call __CLEAN_TARGET,$(EXEPATH)/$(EXE).exe)
 $(call __CLEAN_TARGET,$$($(EXE)_PATH)/lib$(EXE).a)
@@ -128,7 +128,7 @@ __ADD_EXE_SRCDIR = \
 #    * Generate all the possible .C->.o, .c->.o, etc. pattern recipes.
 define ___ADD_EXE_SRCDIR
 $(call __ADD_EXE_INCDIR,$(1),$(2))
-$(call __GENERATE_OBJECTRULES,$(OBJPATH)/$(1),$(2),$$(or $$($(1)_TARGET),TARGET))
+$(call __GENERATE_OBJECTRULES,$(OBJPATH)/$(1),$(2),$$(or $$($(1)_HOST),HOST))
 endef
 
 # ADD_EXE_INCDIR

@@ -56,3 +56,13 @@ CC?=gcc
 CXX?=g++
 AR?=ar
 LD?=ld
+
+HOST_CC?=$(CC)
+HOST_CXX?=$(CXX)
+HOST_AR?=$(AR)
+HOST_LD?=$(LD)
+
+TARGET_CC?=$(CC)
+TARGET_CXX?=$(CXX)
+TARGET_AR?=$(AR)
+TARGET_LD?=$(LD)
